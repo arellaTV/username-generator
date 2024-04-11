@@ -27,7 +27,7 @@ export function Form() {
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>Username Generator</CardTitle>
+        <CardTitle className="mb-2">Username Generator</CardTitle>
         <CardDescription>
           Enter the details below to generate a unique username.
         </CardDescription>
@@ -35,15 +35,15 @@ export function Form() {
       <CardContent>
         <form>
           <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex flex-col space-y-1.5 mb-2">
               <Label htmlFor="firstName">First Name</Label>
               <Input id="firstName" placeholder="Enter your first name" />
             </div>
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex flex-col space-y-1.5 mb-2">
               <Label htmlFor="lastName">Last Name</Label>
               <Input id="lastName" placeholder="Enter your last name" />
             </div>
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex flex-col space-y-1.5 mb-2">
               <Label htmlFor="lastName">Date of Birth</Label>
               <Datepicker
                 value={value}
@@ -54,7 +54,7 @@ export function Form() {
                 inputClassName="relative flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               />
             </div>
-            <div className="flex flex-col space-y-1.5">
+            <div className="flex flex-col space-y-1.5 mb-2">
               <Label htmlFor="framework">Fruit</Label>
               <FruitSelector />
             </div>
