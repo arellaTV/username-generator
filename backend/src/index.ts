@@ -7,12 +7,16 @@ import {
   ValidatedRequestSchema,
   createValidator,
 } from "express-joi-validation";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger-output.json";
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 const validator = createValidator();
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
