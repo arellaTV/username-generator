@@ -18,9 +18,14 @@ import {
 import fruits from "./fruits.json";
 import { useState } from "react";
 
-export function FruitSelector() {
+interface Props {
+  value: string;
+  onChange: (fruit: string) => void;
+}
+
+export function FruitSelector({ value, onChange }: Props) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [selectedValue, setValue] = useState(value);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -31,7 +36,9 @@ export function FruitSelector() {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value ? fruits.find((fruit) => fruit === value) : "Select fruit..."}
+          {selectedValue
+            ? fruits.find((fruit) => fruit === selectedValue)
+            : "Select fruit..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -46,14 +53,19 @@ export function FruitSelector() {
                   key={fruit}
                   value={fruit}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
+                    onChange(
+                      currentValue === selectedValue ? "" : currentValue
+                    );
+                    setValue(
+                      currentValue === selectedValue ? "" : currentValue
+                    );
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === fruit ? "opacity-100" : "opacity-0"
+                      selectedValue === fruit ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {fruit}

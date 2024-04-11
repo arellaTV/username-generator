@@ -11,43 +11,67 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FruitSelector } from "./components/FruitSelector";
 import Datepicker, { DateValueType } from "react-tailwindcss-datepicker";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 export function Form() {
-  const [value, setValue] = useState<DateValueType>({
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [favoriteFruit, setFavoriteFruit] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState<DateValueType>({
     startDate: new Date(),
     endDate: null,
   });
 
-  const handleValueChange = (newValue: DateValueType) => {
-    console.log("newValue:", newValue);
-    setValue(newValue);
+  const handleDateOfBirthChange = (newValue: DateValueType) => {
+    setDateOfBirth(newValue);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const searchParams = new URLSearchParams();
+    searchParams.set("firstName", firstName);
+    searchParams.set("lastName", lastName);
+    searchParams.set("favoriteFruit", favoriteFruit);
+    searchParams.set("dateOfBirth", dateOfBirth?.startDate as string);
+
+    console.log(searchParams.toString());
   };
 
   return (
-    <Card className="w-[350px]">
-      <CardHeader>
-        <CardTitle className="mb-2">Username Generator</CardTitle>
-        <CardDescription>
-          Enter the details below to generate a unique username.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form>
+    <form onSubmit={handleSubmit}>
+      <Card className="w-[350px]">
+        <CardHeader>
+          <CardTitle className="mb-2">Username Generator</CardTitle>
+          <CardDescription>
+            Enter the details below to generate a unique username.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5 mb-2">
               <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" placeholder="Enter your first name" />
+              <Input
+                id="firstName"
+                placeholder="Enter your first name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target?.value)}
+              />
             </div>
             <div className="flex flex-col space-y-1.5 mb-2">
               <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" placeholder="Enter your last name" />
+              <Input
+                id="lastName"
+                placeholder="Enter your last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target?.value)}
+              />
             </div>
             <div className="flex flex-col space-y-1.5 mb-2">
               <Label htmlFor="lastName">Date of Birth</Label>
               <Datepicker
-                value={value}
-                onChange={handleValueChange}
+                value={dateOfBirth}
+                onChange={handleDateOfBirthChange}
                 asSingle
                 useRange={false}
                 toggleClassName="absolute right-0 top-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"
@@ -55,15 +79,18 @@ export function Form() {
               />
             </div>
             <div className="flex flex-col space-y-1.5 mb-2">
-              <Label htmlFor="framework">Fruit</Label>
-              <FruitSelector />
+              <Label htmlFor="fruit">Fruit</Label>
+              <FruitSelector
+                value={firstName}
+                onChange={(fruit: string) => setFavoriteFruit(fruit)}
+              />
             </div>
           </div>
-        </form>
-      </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button>Generate</Button>
-      </CardFooter>
-    </Card>
+        </CardContent>
+        <CardFooter className="flex justify-between">
+          <Button type="submit">Generate</Button>
+        </CardFooter>
+      </Card>
+    </form>
   );
 }
