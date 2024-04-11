@@ -22,8 +22,6 @@ export function FruitSelector() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
-  console.log({ fruits: fruits.sort().map((fruit) => fruit) });
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
