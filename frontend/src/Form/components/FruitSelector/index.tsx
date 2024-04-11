@@ -8,6 +8,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
+  CommandList,
 } from "@/components/ui/command";
 import {
   Popover,
@@ -21,6 +22,8 @@ export function FruitSelector() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
+  console.log({ fruits: fruits.sort().map((fruit) => fruit) });
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -30,9 +33,7 @@ export function FruitSelector() {
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {value
-            ? fruits.find((fruit) => fruit?.name === value)?.name
-            : "Select fruit..."}
+          {value ? fruits.find((fruit) => fruit === value) : "Select fruit..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -41,24 +42,26 @@ export function FruitSelector() {
           <CommandInput placeholder="Search fruit..." />
           <CommandEmpty>No fruit found.</CommandEmpty>
           <CommandGroup>
-            {fruits.map((fruit) => (
-              <CommandItem
-                key={fruit?.name}
-                value={fruit?.name}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === fruit?.name ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {fruit?.name}
-              </CommandItem>
-            ))}
+            <CommandList>
+              {fruits?.map((fruit) => (
+                <CommandItem
+                  key={fruit}
+                  value={fruit}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === fruit ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {fruit}
+                </CommandItem>
+              ))}
+            </CommandList>
           </CommandGroup>
         </Command>
       </PopoverContent>
