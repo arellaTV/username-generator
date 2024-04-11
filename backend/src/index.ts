@@ -35,7 +35,7 @@ interface UsernameGeneratorRequestSchema extends ValidatedRequestSchema {
 }
 
 app.get(
-  "/usernames",
+  "/username",
   validator.query(querySchema),
   (req: ValidatedRequest<UsernameGeneratorRequestSchema>, res: Response) => {
     console.log(req.query);
