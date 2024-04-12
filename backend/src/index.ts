@@ -60,8 +60,14 @@ app.get(
     console.log(req.query);
     const { firstName, lastName, dateOfBirth, favoriteFruit } = req.query;
 
-    const firstNameSanitized = firstName?.toLowerCase()?.replaceAll(" ", "");
-    const lastNameSanitized = lastName?.toLowerCase()?.replaceAll(" ", "");
+    const firstNameSanitized = firstName
+      ?.toLowerCase()
+      ?.replaceAll(" ", "")
+      .replace(/\W/g, "");
+    const lastNameSanitized = lastName
+      ?.toLowerCase()
+      ?.replaceAll(" ", "")
+      .replace(/\W/g, "");
     const favoriteFruitSanitized = favoriteFruit
       ?.toLowerCase()
       ?.replaceAll(" ", "");
