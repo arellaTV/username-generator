@@ -26,7 +26,7 @@ Then visit http://localhost:5173 to visit the frontend. Visit http://localhost:3
 
 - Node v20
 - Docker (optional)
-- Docker Compose
+- Docker Compose (optional)
 
 ### Installing
 
