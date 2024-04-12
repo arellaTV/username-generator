@@ -18,10 +18,13 @@ const app: Express = express();
 const port = process.env.PORT || 3000;
 const validator = createValidator({ passError: true });
 
-var whitelist = [process.env.FRONTEND_ORIGIN || "http://localhost:5173"];
+var whitelist = [
+  process.env.FRONTEND_ORIGIN || "http://localhost:5173",
+  process.env.BACKEND_ORIGIN || "http://localhost:3000",
+];
 var corsOptions: cors.CorsOptions = {
   origin: function (origin, callback) {
-    if (whitelist.indexOf(origin as string) !== -1) {
+    if (!origin || whitelist.indexOf(origin as string) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
