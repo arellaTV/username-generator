@@ -82,7 +82,7 @@ export function Form() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Card className="w-[350px]">
+      <Card className="max-w-[350px]">
         <CardHeader>
           <CardTitle className="mb-2 flex items-center">
             <User className={cn("mr-2")} /> Username Generator
