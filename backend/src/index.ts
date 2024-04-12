@@ -1,12 +1,14 @@
-import express, { Express, Request, Response } from "express";
+import cors from "cors";
 import dotenv from "dotenv";
-import * as Joi from "joi";
+import express, { Express, Request, Response } from "express";
 import {
   ContainerTypes,
+  ExpressJoiError,
   ValidatedRequest,
   ValidatedRequestSchema,
   createValidator,
 } from "express-joi-validation";
+import * as Joi from "joi";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger-output.json";
 
@@ -14,7 +16,20 @@ dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
-const validator = createValidator();
+const validator = createValidator({ passError: true });
+
+var whitelist = [process.env.FRONTEND_ORIGIN || "http://localhost:5173"];
+var corsOptions: cors.CorsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin as string) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
+
+app.use(cors(corsOptions));
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -54,6 +69,24 @@ app.get(
     res.json({
       username: `${firstNameSanitized}_${lastNameSanitized}_${favoriteFruitSanitized}${year}`,
     });
+  }
+);
+
+app.use(
+  (
+    err: any | ExpressJoiError,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    if (err && err.error && err.error.isJoi) {
+      res.status(400).json({
+        type: err.type,
+        message: err.error.toString(),
+      });
+    } else {
+      next(err);
+    }
   }
 );
 
