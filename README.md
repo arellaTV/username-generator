@@ -20,6 +20,8 @@ docker compose up -d
 
 Then visit http://localhost:5173 to visit the frontend. Visit http://localhost:3000/api-docs/ to visit the Swagger docs for the backend.
 
+## Run Locally
+
 ### Dependencies
 
 - Node v20
@@ -87,7 +89,7 @@ And in production mode:
 ```
 cd frontend
 npm run build
-npm start
+npm run preview
 ```
 
 Then visit http://localhost:5173 to get a response from the backend.
