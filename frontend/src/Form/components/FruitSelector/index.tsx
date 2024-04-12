@@ -46,10 +46,11 @@ export function FruitSelector({ value, onChange }: Props) {
         <Command>
           <CommandInput placeholder="Search fruit..." />
           <CommandEmpty>No fruit found.</CommandEmpty>
-          <CommandGroup>
-            <CommandList>
+          <CommandList>
+            <CommandGroup>
               {fruits?.map((fruit) => (
                 <CommandItem
+                  className="cursor-pointer"
                   key={fruit}
                   value={fruit}
                   onSelect={(currentValue) => {
@@ -71,8 +72,8 @@ export function FruitSelector({ value, onChange }: Props) {
                   {fruit}
                 </CommandItem>
               ))}
-            </CommandList>
-          </CommandGroup>
+            </CommandGroup>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
